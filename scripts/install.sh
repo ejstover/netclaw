@@ -585,6 +585,7 @@ declare -A ENV_VARS=(
     ["SUBNET_MCP_SCRIPT"]="$SUBNET_MCP_DIR/servers/subnetcalculator_mcp.py"
     ["F5_MCP_SCRIPT"]="$F5_MCP_DIR/F5MCPserver.py"
     ["CATC_MCP_SCRIPT"]="$CATC_MCP_DIR/catalyst-center-mcp.py"
+    ["MIST_MCP_SCRIPT"]="$NETCLAW_DIR/scripts/mist_mcp_server.py"
     ["PACKET_BUDDY_MCP_SCRIPT"]="$PACKET_BUDDY_MCP_DIR/server.py"
 )
 
@@ -658,6 +659,7 @@ verify_file "NVD CVE MCP" "$NVD_MCP_DIR/mcp_nvd/main.py"
 verify_file "Subnet Calculator MCP" "$SUBNET_MCP_DIR/servers/subnetcalculator_mcp.py"
 verify_file "F5 BIG-IP MCP" "$F5_MCP_DIR/F5MCPserver.py"
 verify_file "Catalyst Center MCP" "$CATC_MCP_DIR/catalyst-center-mcp.py"
+verify_file "Juniper Mist MCP" "$NETCLAW_DIR/scripts/mist_mcp_server.py"
 verify_file "Packet Buddy MCP" "$PACKET_BUDDY_MCP_DIR/server.py"
 
 # CML MCP is pip-installed, check via import
@@ -687,12 +689,13 @@ echo ""
 
 SKILL_COUNT=$(ls -d "$NETCLAW_DIR/workspace/skills/"*/ 2>/dev/null | wc -l)
 
-echo "MCP Servers Installed (19):"
+echo "MCP Servers Installed (20):"
 echo "  ┌─────────────────────────────────────────────────────────────"
 echo "  │ NETWORK DEVICE AUTOMATION:"
 echo "  │   pyATS              Cisco device CLI, Genie parsers"
 echo "  │   F5 BIG-IP          iControl REST API (virtuals, pools, iRules)"
 echo "  │   Catalyst Center    DNA Center / CatC API (devices, clients, sites)"
+echo "  │   Juniper Mist       Mist cloud API (orgs, sites, devices, alarms, stats)"
 echo "  │"
 echo "  │ INFRASTRUCTURE PLATFORMS:"
 echo "  │   Cisco ACI           APIC / ACI fabric management"
@@ -757,6 +760,8 @@ echo "  │   ise-posture-audit      ISE posture & TrustSec audit"
 echo "  │   ise-incident-response  Endpoint investigation & quarantine"
 echo "  │   servicenow-change-workflow  Full ITSM change lifecycle"
 echo "  │   gait-session-tracking  Mandatory audit trail"
+echo "  │   mist-inventory        Mist org/site/device inventory and stats"
+echo "  │   mist-assurance        Mist alarms and site assurance triage"
 echo "  │"
 echo "  │ Microsoft 365 Skills:"
 echo "  │   msgraph-files          OneDrive/SharePoint file operations"
