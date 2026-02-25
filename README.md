@@ -4,7 +4,7 @@
 
 # NetClaw
 
-A CCIE-level AI network engineering coworker. Built on [OpenClaw](https://github.com/openclaw/openclaw) with Anthropic Claude, 42 skills, and 19 MCP server backends for complete network automation with ITSM gating, source-of-truth reconciliation, immutable audit trails, packet capture analysis, GitHub config-as-code, Cisco CML lab simulation, Slack-native operations, and Microsoft 365 integration.
+A CCIE-level AI network engineering coworker. Built on [OpenClaw](https://github.com/openclaw/openclaw) with Anthropic Claude, 44 skills, and 20 MCP server backends for complete network automation with ITSM gating, source-of-truth reconciliation, immutable audit trails, packet capture analysis, GitHub config-as-code, Cisco CML lab simulation, Slack-native operations, and Microsoft 365 integration.
 
 ---
 
@@ -16,7 +16,7 @@ cd netclaw
 ./scripts/install.sh          # installs everything, then launches the setup wizard
 ```
 
-That's it. The installer clones 19 MCP servers, deploys 42 skills, then launches a two-phase setup:
+That's it. The installer installs 20 MCP servers, deploys 44 skills, then launches a two-phase setup:
 
 **Phase 1: `openclaw onboard`** (OpenClaw's built-in wizard)
 - Pick your AI provider (Anthropic, OpenAI, Bedrock, Vertex, 30+ options)
@@ -26,7 +26,7 @@ That's it. The installer clones 19 MCP servers, deploys 42 skills, then launches
 
 **Phase 2: `./scripts/setup.sh`** (NetClaw platform credentials)
 - Network devices (testbed.yaml editor)
-- Platform credentials (NetBox, ServiceNow, ACI, ISE, F5, Catalyst Center, NVD, Microsoft Graph, GitHub, CML)
+- Platform credentials (NetBox, ServiceNow, ACI, ISE, F5, Catalyst Center, Juniper Mist, NVD, Microsoft Graph, GitHub, CML)
 - Your identity (name, role, timezone for USER.md)
 
 After setup, start NetClaw:
@@ -58,6 +58,7 @@ NetClaw is an autonomous network engineering agent powered by Claude that can:
 - **Scan** for CVE vulnerabilities against the NVD database with CVSS severity correlation and exposure confirmation
 - **Manage** F5 BIG-IP load balancers — virtual servers, pools, iRules, stats, and change management
 - **Operate** Catalyst Center — device inventory, client monitoring, site management, and troubleshooting
+- **Operate** Juniper Mist — org/site inventory, AP/switch/gateway visibility, and alarm-based assurance triage
 - **Calculate** IPv4 and IPv6 subnets — VLSM planning, wildcard masks, allocation standards
 - **Alert** via Slack — severity-formatted notifications, incident workflows, and user-aware routing
 - **Diagram** your network with Draw.io topology maps (color-coded by reconciliation status)
@@ -82,6 +83,7 @@ Human (Slack / WebChat) --> NetClaw (CCIE Agent on OpenClaw)
                                 |     MCP: pyATS           --> IOS-XE / NX-OS / IOS-XR devices
                                 |     MCP: F5 BIG-IP       --> iControl REST (virtuals, pools, iRules)
                                 |     MCP: Catalyst Center --> DNA-C API (devices, clients, sites)
+                                |     MCP: Juniper Mist    --> Mist Cloud API (orgs, sites, devices, alarms)
                                 |
                                 |-- INFRASTRUCTURE:
                                 |     MCP: Cisco ACI       --> APIC / ACI fabric
@@ -134,34 +136,36 @@ NetClaw ships with the full set of OpenClaw workspace markdown files. These are 
 
 ---
 
-## MCP Servers (19)
+## MCP Servers (20)
 
 | # | MCP Server | Repository | Transport | Function |
 |---|------------|------------|-----------|----------|
 | 1 | pyATS | [automateyournetwork/pyATS_MCP](https://github.com/automateyournetwork/pyATS_MCP) | stdio (Python) | Device CLI, Genie parsers, config push, dynamic test execution |
 | 2 | F5 BIG-IP | [czirakim/F5.MCP.server](https://github.com/czirakim/F5.MCP.server) | stdio (Python) | iControl REST API — virtuals, pools, iRules, profiles, stats |
 | 3 | Catalyst Center | [richbibby/catalyst-center-mcp](https://github.com/richbibby/catalyst-center-mcp) | stdio (Python) | DNA-C API — devices, clients, sites, interfaces |
-| 4 | Cisco ACI | [automateyournetwork/ACI_MCP](https://github.com/automateyournetwork/ACI_MCP) | stdio (Python) | APIC interaction, policy management, fabric health |
-| 5 | Cisco ISE | [automateyournetwork/ISE_MCP](https://github.com/automateyournetwork/ISE_MCP) | stdio (Python) | Identity policy, posture, TrustSec, endpoint control |
-| 6 | NetBox | [netboxlabs/netbox-mcp-server](https://github.com/netboxlabs/netbox-mcp-server) | stdio (Python) | Read-write DCIM/IPAM source of truth |
-| 7 | ServiceNow | [echelon-ai-labs/servicenow-mcp](https://github.com/echelon-ai-labs/servicenow-mcp) | stdio (Python) | Incidents, change requests, CMDB |
-| 8 | Microsoft Graph | [@anthropic-ai/microsoft-graph-mcp](https://www.npmjs.com/package/@anthropic-ai/microsoft-graph-mcp) | npx | OneDrive, SharePoint, Visio, Teams, Exchange via Graph API |
-| 9 | GitHub | [github/github-mcp-server](https://github.com/github/github-mcp-server) | Docker (Go) | Issues, PRs, code search, Actions, config-as-code workflows |
-| 10 | Packet Buddy | Built-in | stdio (Python) | pcap/pcapng deep analysis via tshark — upload pcaps to Slack |
-| 11 | Cisco CML | [xorrkaz/cml-mcp](https://github.com/xorrkaz/cml-mcp) | stdio (Python) | Lab lifecycle, topology, nodes, links, captures, CLI exec, admin |
-| 12 | NVD CVE | [marcoeg/mcp-nvd](https://github.com/marcoeg/mcp-nvd) | stdio (Python) | NIST NVD vulnerability database with CVSS scoring |
-| 13 | Subnet Calculator | [automateyournetwork/GeminiCLI_SubnetCalculator_Extension](https://github.com/automateyournetwork/GeminiCLI_SubnetCalculator_Extension) | stdio (Python) | IPv4 + IPv6 CIDR subnet calculator |
-| 14 | GAIT | [automateyournetwork/gait_mcp](https://github.com/automateyournetwork/gait_mcp) | stdio (Python) | Git-based AI tracking and audit |
-| 15 | Wikipedia | [automateyournetwork/Wikipedia_MCP](https://github.com/automateyournetwork/Wikipedia_MCP) | stdio (Python) | Standards and technology context |
-| 16 | Markmap | [automateyournetwork/markmap_mcp](https://github.com/automateyournetwork/markmap_mcp) | stdio (Node) | Hierarchical mind map generation |
-| 17 | Draw.io | [@drawio/mcp](https://github.com/jgraph/drawio-mcp) | npx | Network topology diagram generation |
-| 18 | RFC Lookup | [@mjpitz/mcp-rfc](https://github.com/mjpitz/mcp-rfc) | npx | IETF RFC search and retrieval |
+| 4 | Juniper Mist | Built-in (`scripts/mist_mcp_server.py`) | stdio (Python) | Mist API — orgs, sites, devices, alarms, and site stats |
+| 5 | Cisco ACI | [automateyournetwork/ACI_MCP](https://github.com/automateyournetwork/ACI_MCP) | stdio (Python) | APIC interaction, policy management, fabric health |
+| 6 | Cisco ISE | [automateyournetwork/ISE_MCP](https://github.com/automateyournetwork/ISE_MCP) | stdio (Python) | Identity policy, posture, TrustSec, endpoint control |
+| 7 | NetBox | [netboxlabs/netbox-mcp-server](https://github.com/netboxlabs/netbox-mcp-server) | stdio (Python) | Read-write DCIM/IPAM source of truth |
+| 8 | ServiceNow | [echelon-ai-labs/servicenow-mcp](https://github.com/echelon-ai-labs/servicenow-mcp) | stdio (Python) | Incidents, change requests, CMDB |
+| 9 | Microsoft Graph | [@anthropic-ai/microsoft-graph-mcp](https://www.npmjs.com/package/@anthropic-ai/microsoft-graph-mcp) | npx | OneDrive, SharePoint, Visio, Teams, Exchange via Graph API |
+| 10 | GitHub | [github/github-mcp-server](https://github.com/github/github-mcp-server) | Docker (Go) | Issues, PRs, code search, Actions, config-as-code workflows |
+| 11 | Packet Buddy | Built-in | stdio (Python) | pcap/pcapng deep analysis via tshark — upload pcaps to Slack |
+| 12 | Cisco CML | [xorrkaz/cml-mcp](https://github.com/xorrkaz/cml-mcp) | stdio (Python) | Lab lifecycle, topology, nodes, links, captures, CLI exec, admin |
+| 13 | NVD CVE | [marcoeg/mcp-nvd](https://github.com/marcoeg/mcp-nvd) | stdio (Python) | NIST NVD vulnerability database with CVSS scoring |
+| 14 | Subnet Calculator | [automateyournetwork/GeminiCLI_SubnetCalculator_Extension](https://github.com/automateyournetwork/GeminiCLI_SubnetCalculator_Extension) | stdio (Python) | IPv4 + IPv6 CIDR subnet calculator |
+| 15 | GAIT | [automateyournetwork/gait_mcp](https://github.com/automateyournetwork/gait_mcp) | stdio (Python) | Git-based AI tracking and audit |
+| 16 | Wikipedia | [automateyournetwork/Wikipedia_MCP](https://github.com/automateyournetwork/Wikipedia_MCP) | stdio (Python) | Standards and technology context |
+| 17 | Markmap | [automateyournetwork/markmap_mcp](https://github.com/automateyournetwork/markmap_mcp) | stdio (Node) | Hierarchical mind map generation |
+| 18 | Draw.io | [@drawio/mcp](https://github.com/jgraph/drawio-mcp) | npx | Network topology diagram generation |
+| 19 | RFC Lookup | [@mjpitz/mcp-rfc](https://github.com/mjpitz/mcp-rfc) | npx | IETF RFC search and retrieval |
+| 20 | Packet Buddy Upload Directory | Built-in (`~/packet-buddy-uploads`) | Local filesystem | Stores uploaded pcap artifacts for Packet Buddy analysis workflows |
 
 All MCP servers communicate via stdio (JSON-RPC 2.0) through `scripts/mcp-call.py`. GitHub MCP runs via Docker. CML MCP is pip-installed (`cml-mcp`). No persistent connections, no port management.
 
 ---
 
-## Skills (42)
+## Skills (44)
 
 ### pyATS Device Skills (9)
 
@@ -177,7 +181,7 @@ All MCP servers communicate via stdio (JSON-RPC 2.0) through `scripts/mcp-call.p
 | **pyats-dynamic-test** | Generates and executes deterministic pyATS aetest scripts with embedded TEST_DATA. Sandboxed execution: no filesystem, network, or subprocess access. 300-second timeout. |
 | **pyats-parallel-ops** | Fleet-wide parallel operations. pCall grouping by role/site. Failure isolation (one device timeout doesn't block others). Result aggregation with severity sorting. Scaling guidelines from 1 to 50+ devices. |
 
-### Domain Skills (7)
+### Domain Skills (9)
 
 | Skill | What It Does |
 |-------|-------------|
@@ -188,6 +192,8 @@ All MCP servers communicate via stdio (JSON-RPC 2.0) through `scripts/mcp-call.p
 | **ise-incident-response** | Endpoint investigation: lookup by MAC/IP/username, auth history, posture/profile review, risk assessment. **Human decision point required** before any quarantine action. ServiceNow Security Incident creation. GAIT audit. |
 | **servicenow-change-workflow** | Full ITSM lifecycle: pre-change incident check, CR creation, approval gate, execution coordination, post-change verification, rollback procedure, CR closure/escalation. Supports Normal, Standard, and Emergency change types. |
 | **gait-session-tracking** | Mandatory Git-based audit trail. Session branch creation, turn recording (prompt/response/artifacts), session log display. 9 GAIT tools: status, init, branch, checkout, record_turn, log, show, pin, summarize_and_squash. |
+| **mist-inventory** | Juniper Mist tenant and site inventory: enumerate orgs/sites, list AP/switch/gateway devices, gather site-level cloud telemetry context. |
+| **mist-assurance** | Mist health triage: review site alarms and stats, severity-sort WLAN/WAN issues, and correlate with infrastructure inventory before deep troubleshooting. |
 
 ### F5 BIG-IP Skills (3)
 
@@ -485,7 +491,7 @@ netclaw/
 ├── TOOLS.md                              # Local infrastructure notes (edit this)
 ├── HEARTBEAT.md                          # Periodic health check checklist
 ├── MISSION01.md                          # Completed — core pyATS + 11 skills
-├── MISSION02.md                          # Completed — full platform, 42 skills, 19 MCP
+├── MISSION02.md                          # Completed — full platform, 44 skills, 20 MCP
 ├── workspace/
 │   └── skills/                           # 42 skill definitions (source of truth)
 │       ├── pyats-network/                # Core device automation (8 MCP tools)
@@ -510,6 +516,8 @@ netclaw/
 │       ├── catc-inventory/              # Catalyst Center device inventory
 │       ├── catc-client-ops/             # Catalyst Center client monitoring
 │       ├── catc-troubleshoot/           # Catalyst Center troubleshooting
+│       ├── mist-inventory/              # Juniper Mist inventory
+│       ├── mist-assurance/              # Juniper Mist assurance triage
 │       ├── msgraph-files/                # OneDrive/SharePoint file operations
 │       ├── msgraph-visio/                # Visio diagram generation
 │       ├── msgraph-teams/                # Teams channel notifications
@@ -547,6 +555,7 @@ netclaw/
 │   ├── subnet-calculator-mcp/            # IPv4 + IPv6 subnet calculator
 │   ├── f5-mcp-server/                    # F5 BIG-IP iControl REST
 │   ├── catalyst-center-mcp/              # Cisco Catalyst Center / DNA-C
+│   ├── (built-in) scripts/mist_mcp_server.py # Juniper Mist cloud API
 │   └── packet-buddy-mcp/                 # pcap analysis via tshark (built-in)
 ├── scripts/
 │   ├── install.sh                        # Full bootstrap installer (24 steps)
@@ -609,7 +618,7 @@ netclaw/
 21. **Installs CML MCP** — `pip3 install cml-mcp` (requires Python 3.12+, CML 2.9+)
 22. **Deploys skills + workspace files** — Copies 42 skills and 6 MD files to `~/.openclaw/workspace/`
 23. **Verifies installation** — Checks all MCP server scripts + core scripts exist
-24. **Prints summary** — Lists all 19 MCP servers by category and all 42 skills by domain
+24. **Prints summary** — Lists all 20 MCP servers by category and all 44 skills by domain
 
 ---
 
@@ -655,6 +664,7 @@ Optional (for full feature set):
 - NVD API key (free from https://nvd.nist.gov/developers/request-an-api-key)
 - F5 BIG-IP management access with iControl REST enabled
 - Cisco Catalyst Center (DNA Center) with API credentials
+- Juniper Mist API token with org/site read access
 - Docker (for GitHub MCP server)
 - tshark / Wireshark (for Packet Buddy pcap analysis — `apt install tshark`)
 - GitHub PAT with repo scope (for GitHub MCP — https://github.com/settings/tokens)
@@ -695,6 +705,9 @@ Ask NetClaw anything you'd ask a senior network engineer:
 
 "What clients are connected to Site-A?"
 --> catc-client-ops: client list filtered by site, SSID, band, health scores
+
+"Show me Mist alarms for the NYC branch"
+--> mist-assurance: mist_get_sites + mist_get_site_stats + mist_get_alarms severity triage
 
 "Calculate a /22 for the 10.50.0.0 network"
 --> subnet-calculator: VLSM breakdown, usable hosts, wildcard mask, CIDR notation
@@ -748,4 +761,4 @@ See `examples/` for detailed workflow walkthroughs.
 | Mission | Status | Summary |
 |---|---|---|
 | MISSION01 | Complete | Core pyATS agent, 7 skills, Markmap, Draw.io, RFC, NVD CVE, SOUL v1 |
-| MISSION02 | Complete | Full platform — 19 MCP servers, 42 skills (9 pyATS, 7 domain, 3 F5, 3 CatC, 3 M365, 1 GitHub, 1 packet analysis, 5 CML, 6 utility, 4 Slack), 6 workspace files, SOUL v2 |
+| MISSION02 | Complete | Full platform — 20 MCP servers, 44 skills (9 pyATS, 9 domain, 3 F5, 3 CatC, 3 M365, 1 GitHub, 1 packet analysis, 5 CML, 6 utility, 4 Slack), 6 workspace files, SOUL v2 |

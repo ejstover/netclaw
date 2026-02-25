@@ -28,6 +28,7 @@ All credentials are in `~/.openclaw/.env`. Never put credentials in skill files 
 - NVD API             → NVD_API_KEY
 - F5 BIG-IP           → F5_IP_ADDRESS, F5_AUTH_STRING
 - Catalyst Center     → CCC_HOST, CCC_USER, CCC_PWD
+- Juniper Mist        → MIST_BASE_URL, MIST_API_TOKEN
 - Microsoft Graph     → AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET
 ```
 

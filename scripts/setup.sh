@@ -229,6 +229,19 @@ else
 fi
 echo ""
 
+# --- Juniper Mist ---
+if yesno "Do you have Juniper Mist cloud-managed networking?"; then
+    echo ""
+    prompt MIST_BASE "Mist API Base URL" "https://api.mist.com/api/v1"
+    prompt_secret MIST_TOKEN "Mist API Token"
+    [ -n "$MIST_BASE" ] && set_env "MIST_BASE_URL" "$MIST_BASE"
+    [ -n "$MIST_TOKEN" ] && set_env "MIST_API_TOKEN" "$MIST_TOKEN"
+    ok "Juniper Mist configured"
+else
+    skip "Juniper Mist"
+fi
+echo ""
+
 # --- NVD CVE ---
 if yesno "Do you want CVE vulnerability scanning? (free NVD API key)"; then
     echo ""
